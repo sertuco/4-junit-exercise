@@ -1,6 +1,6 @@
 package price.formatter;
 
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
@@ -10,11 +10,35 @@ import org.junit.jupiter.api.Test;
  * readme file.
  */
 public class PriceFormatterTest {
+    PriceFormatter formatter = new PriceFormatter();
 
     @Test
-    void removeThisTestWhenImplementingYourOwnTests() {
-        PriceFormatter formatter = new PriceFormatter();
+    void decimalTest() {
+        String formatted = formatter.formatPrice(3.14159);
+        assertEquals("3,14 €", formatted);
+    }
 
-        fail("Remove this test and implement your own tests for the PriceFormatter class.");
+    @Test
+    void spaceSeparatorTest() {
+        String formatted = formatter.formatPrice(123456.78);
+        assertEquals("123 456,78 €", formatted);
+    }
+
+    @Test
+    void euroSignTest() {
+        String formatted = formatter.formatPrice(123);
+        assertEquals("123 €", formatted);
+    }
+
+    @Test
+    void fractionDigitsTest() {
+        String formatted = formatter.formatPrice(6.7);
+        assertEquals("6,70 €", formatted);
+    }
+
+    @Test
+    void fractionRoundingTest() {
+        String formatted = formatter.formatPrice(4.567);
+        assertEquals("4,57 €", formatted);
     }
 }
