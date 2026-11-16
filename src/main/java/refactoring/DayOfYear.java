@@ -1,5 +1,7 @@
 package refactoring;
 
+import java.time.YearMonth;
+
 /**
  * Smelly Example #1
  *
@@ -12,6 +14,34 @@ package refactoring;
  * This work is licensed under CC BY-SA 4.0.
  */
 public class DayOfYear {
+
+    /**
+     * This method calculates the day of the year (1-366) that corresponds to the
+     * given month, day of month, and year. January 1st is day 1 of the year and
+     * December 31st is day 365 (or 366 in a leap year).
+     *
+     * @param month the month (1-12)
+     * @param dayOfMonth the day of the month (1-31)
+     * @param year the year
+     * @throws IllegalArgumentException thrown when month or day are invalid in corresponding year
+     * @return the day of the year (1-366)
+     */
+    public static int dayOfYearFixed(int month, int dayOfMonth, int year) {
+        int MIN_VALUE = 1;
+        int MAX_VALUE = 12;
+        int daysInMonth = YearMonth.of(year, month).lengthOfMonth();
+        if (month < MIN_VALUE || month > MAX_VALUE) {
+            throw new IllegalArgumentException("Not a valid month");
+        } else if (dayOfMonth < MIN_VALUE || dayOfMonth > daysInMonth) {
+            throw new IllegalArgumentException("Not a valid day of month");
+        }
+        int dayOfYear = 0;
+        for (int i = 1; i < month; i++) {
+            dayOfYear += YearMonth.of(year, i).lengthOfMonth();
+        }
+        dayOfYear += dayOfMonth;
+        return dayOfYear;
+    }
 
     /**
      * "The day of year (DOY) is the sequential day number starting with day 1 on
@@ -28,6 +58,7 @@ public class DayOfYear {
      * @param year       the year
      * @return the day of the year (1-366)
      */
+
     public static int dayOfYear(int month, int dayOfMonth, int year) {
         /*
          * You are expected to change this method in the exercise in order to fix the
